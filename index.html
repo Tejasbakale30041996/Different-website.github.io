@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ===== CSS Link Start ======= -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- ===== CSS Link End   ======= -->
+   
+    <!-- ===== Javascript link Start ======== -->
+
+
+    <script src='https://unpkg.com/react@17/umd/react.development.js'></script>
+    <script src='https://unpkg.com/react-dom@17/umd/react-dom.development.js'></script>
+    <script src='https://unpkg.com/@types/react@17.0.44/index.d.ts'></script>
+    <script src='https://unpkg.com/@types/react-dom@17.0.15/index.d.ts'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/classnames/2.3.1/index.min.js'></script>
+    <script src='https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js'></script>
+
+    <!-- ===== Javascript link End ============ -->
+
+</head>
+
+<body>
+
+    <div class="different">
+        <h3>Different type of Website</h3>
+    </div>
+
+    <div id="root">
+        
+        <!-- <img id="menu-profile-image" src="../img/Rose 2 img.jpg"> -->
+        <img id="menu-profile-image" src="../img/Rose img.jpg">
+        <div id="menu-quick-options">
+            <a href="https://tejasbakale30041996.github.io/Advanture.github.io/" target="_blank"
+                class="menu-quick-option" style="transition-delay: 200ms;"><i class="fa fa-subway"></i>
+
+                <h3 class="tooltip">Adaventure</h3>
+
+            </a>
+            <a href="https://tejasbakale30041996.github.io/Nature.github.io/" target="_blank" class="menu-quick-option"
+                style="transition-delay: 250ms;"><i class="fas fa-book"></i>
+                <h3 class="tooltip">Nature</h3>
+            </a>
+            <a href="https://tejasbakale30041996.github.io/online-furniture.github.io/" target="_blank"
+                class="menu-quick-option" style="transition-delay: 300ms;"><i class="fas fa-desktop"></i>
+                <h3 class="tooltip">KAYUU</h3>
+            </a>
+            <a href="https://tejasbakale30041996.github.io/Deli-Restaurant.github.io/" target="_blank"
+                class="menu-quick-option" style="transition-delay: 350ms;"><i class="fab fa-dropbox"></i>
+                <h3 class="tooltip">NYUS</h3>
+            </a>
+        </div>
+        
+    
+    </div>
+
+
+    <script>
+
+        "use strict";
+        const MenuOption = (props) => {
+            const { toggled } = React.useContext(AppContext);
+            const className = `menu-${props.type}-option`, delay = toggled ? 200 : 0;
+            const styles = {
+                transitionDelay: `${delay + (50 * props.index)}ms`
+            };
+            return (React.createElement("a", { href: props.url, target: "_blank", className: className, disabled: !toggled, style: styles },
+                React.createElement("i", { className: props.icon }),
+                React.createElement("h3", { className: props.type === "quick" ? "tooltip" : "label" }, props.label)));
+        };
+        const Menu = () => {
+            const { toggled } = React.useContext(AppContext);
+            const profileImage = "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
+            const getOptions = (options, type) => {
+                return options.map((option, index) => (React.createElement(MenuOption, { key: option.label, icon: option.icon, index: index, label: option.label, url: option.url, type: type })));
+            };
+            const getQuickOptions = () => {
+                return getOptions([{
+                    icon: "fa fa-subway", label: "Adaventure", url: "https://tejasbakale30041996.github.io/Advanture.github.io/"
+                },
+
+                {
+                    icon: "fas fa-book", label: "Nature", url: "https://tejasbakale30041996.github.io/Nature.github.io/"
+                },
+
+                {
+                    icon: "fas fa-desktop", label: "KAYUU", url: "https://tejasbakale30041996.github.io/online-furniture.github.io/"
+                },
+
+                {
+                    icon: "fab fa-dropbox", label: "NYUS", url: "https://tejasbakale30041996.github.io/Deli-Restaurant.github.io/"
+                }], "quick");
+            };
+
+            const getFullOptions = () => {
+
+            };
+
+
+            return (React.createElement("div", { id: "menu", className: classNames({ toggled }) },
+                React.createElement("div", { id: "menu-background-wrapper" },
+                    React.createElement("div", { id: "menu-background" })),
+                React.createElement("img", { id: "menu-profile-image", src: "../img/Rose img.jpg" }),
+                React.createElement("div", { id: "menu-quick-options" }, getQuickOptions()),
+                React.createElement("div", { id: "menu-full-options" }, getFullOptions())));
+        };
+
+        const AppContext = React.createContext(null);
+        const App = () => {
+            const [toggled, setToggledTo] = React.useState(false);
+            React.useEffect(() => {
+                setTimeout(() => setToggledTo(true), 1000);
+            }, []);
+            const handleOnClick = () => setToggledTo(!toggled);
+            return (React.createElement(AppContext.Provider, { value: { toggled } },
+                React.createElement("div", { id: "app" },
+                    React.createElement(Menu, null),
+                    React.createElement("button", { id: "menu-toggle", type: "button", onClick: handleOnClick },
+                        React.createElement("i", { className: toggled ? "fas fa-stream fa-xmark-large" : "fa-solid fa-bars-staggered"})))));
+        };
+
+        ReactDOM.render(React.createElement(App, null), document.getElementById("root"));
+    </script>
+
+
+</body>
+
+</html>
+
